@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using TesteSygnal.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services
+    .AddDbContext<TSDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
