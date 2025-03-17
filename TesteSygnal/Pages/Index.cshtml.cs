@@ -1,19 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using TesteSygnal.Context;
+using TesteSygnal.DTOs;
+using TesteSygnal.Models;
 
 namespace TesteSygnal.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel(
+    TSDbContext context, 
+    ILogger<IndexModel> logger) : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
-
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        _logger = logger;
-    }
+    [BindProperty(SupportsGet = true)]
+    public OrderFormDTO FormDTO { get; set; } = new();
+    [BindProperty]
+    public int? NewOderControlNumber { get; set; }
 
     public void OnGet()
     {
-
     }
 }
