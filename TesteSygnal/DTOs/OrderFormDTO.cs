@@ -6,6 +6,7 @@ namespace TesteSygnal.DTOs;
 public class OrderFormDTO
 {
     public int? ControlNumber { get; set; }
+    public int? ControlNumberMax { get; set; }
     public string? State { get; set; }
 
     public List<SelectListItem> StateList =>

@@ -19,10 +19,13 @@ public class OrderController(TSDbContext context) : Controller
         try
         {
             IQueryable<Order> queryOrder = _context.Orders.AsNoTracking();
+            
             if (orderFormDTO.State != null)
                 queryOrder = queryOrder.Where(o => o.State == orderFormDTO.State);  
             if (orderFormDTO.ControlNumber != null)
-                queryOrder = queryOrder.Where(o => o.ControlNumber == orderFormDTO.ControlNumber);
+                queryOrder = queryOrder.Where(o => o.ControlNumber >= orderFormDTO.ControlNumber);
+            if (orderFormDTO.ControlNumberMax != null)
+                queryOrder = queryOrder.Where(o => o.ControlNumber <= orderFormDTO.ControlNumberMax);
 
             List<OrderViewModel> lstOrders = queryOrder
                 .Select(order => new OrderViewModel(order))
