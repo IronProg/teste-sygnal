@@ -12,7 +12,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var order in Model)
+        @foreach (var order in Model.OrderBy(order => order.ControlNumber))
         {
           <partial name="Partials/_table_order_row" model="order"></partial>
         }

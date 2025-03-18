@@ -14,11 +14,20 @@ public class OrderController(TSDbContext context) : Controller
     private readonly TSDbContext _context = context;
 
     [HttpGet]
-    public IActionResult GetOrders([FromQuery] OrderFormDTO? order)
+    public IActionResult GetOrders([FromQuery(Name = "FormDTO")] OrderFormDTO? orderFormDTO)
     {
         try
         {
-            List<OrderViewModel> lstOrders = _context.Orders.AsNoTracking()
+            IQueryable<Order> queryOrder = _context.Orders.AsNoTracking();
+            
+            if (orderFormDTO.State != null)
+                queryOrder = queryOrder.Where(o => o.State == orderFormDTO.State);  
+            if (orderFormDTO.ControlNumber != null)
+                queryOrder = queryOrder.Where(o => o.ControlNumber >= orderFormDTO.ControlNumber);
+            if (orderFormDTO.ControlNumberMax != null)
+                queryOrder = queryOrder.Where(o => o.ControlNumber <= orderFormDTO.ControlNumberMax);
+
+            List<OrderViewModel> lstOrders = queryOrder
                 .Select(order => new OrderViewModel(order))
                 .ToList();
             return PartialView("Partials/_table_order", lstOrders);
@@ -30,11 +39,11 @@ public class OrderController(TSDbContext context) : Controller
     }
 
     [HttpPost]
-    public IActionResult PostOrder([FromBody] int controlNumber)
+    public IActionResult PostOrder()
     {
         try
         {
-            Order newOrder = new() { ControlNumber = controlNumber, State = OrderStateConstants.Pending };
+            Order newOrder = new() { State = OrderStateConstants.Pending };
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
             

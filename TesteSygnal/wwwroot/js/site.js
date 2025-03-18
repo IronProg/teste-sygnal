@@ -1,16 +1,27 @@
 ﻿const $formFilter = $("#form-filter");
-const $formAddOrder = $("#form-add-order");
+const $btnAddOrder = $("#btn-add-order");
 const $tableContainer = $("#table-container");
+const $loader = $("#loader");
+toastr.option = {
+    duration: 330,
+    timeOut: 2000
+};
+
+const loader = {
+    show: () => $loader.css("visibility", "visible"),
+    hide: () => $loader.css("visibility", "hidden")
+}
 
 $(function () {
     $formFilter.on("submit", formFilterSubmitHandler)
-    $formAddOrder.on("submit", formAddOrderSubmitHandler)
+    $btnAddOrder.on("click", btnAddOrderClickHandler)
 })
 
 
 async function formFilterSubmitHandler(e) {
     e.preventDefault();
     try {
+        loader.show();
         const response = await $.ajax({
             url: `api/order?${$(this).serialize()}`,
             method: "GET",
@@ -20,28 +31,24 @@ async function formFilterSubmitHandler(e) {
 
         const $tableRows = $tableContainer.find("tbody tr");
 
-        console.log($tableRows);
         $tableRows.find(".btn-update-order").on("click", btnUpdateOrderClickHandler);
         $tableRows.find(".btn-delete-order").on("click", btnDeleteOrderClickHandler);
 
         return false;
     } catch (error) {
-        console.log(error);
+        toastr.error(error);
         return false;
+    } finally {
+        loader.hide();
     }
-
 }
 
-async function formAddOrderSubmitHandler(e) {
-    e.preventDefault();
-    const $controlNumberInput = $(this).find('input[name="controlNumber"]');
+async function btnAddOrderClickHandler() {
     try {
+        loader.show();
         const response = await $.ajax({
             url: `api/order?${$(this).serialize()}`,
             method: "Post",
-            body: JSON.stringify({
-                controlNumber: $controlNumberInput.val()
-            }),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Content-Type","application/json");
             }
@@ -51,19 +58,20 @@ async function formAddOrderSubmitHandler(e) {
         
         const $appendedRow = $tableContainer.find("tbody tr:last-of-type");
         
-        console.log($appendedRow);
         $appendedRow.find(".btn-update-order").on("click", btnUpdateOrderClickHandler);
         $appendedRow.find(".btn-delete-order").on("click", btnDeleteOrderClickHandler);
 
-        return false;
+        toastr.success("Order added successfully!");
     } catch (error) {
-        console.log(error);
-        return false;
+        toastr.error(error);
+    } finally {
+        loader.hide();
     }
 }
 
 async function btnDeleteOrderClickHandler() {
     try {
+        loader.show();
         const $tableRow = $(this).parents('tr');
         const controlNumber = $tableRow.attr('data-control-number');
     
@@ -73,12 +81,16 @@ async function btnDeleteOrderClickHandler() {
         });
         
         $tableRow.remove();
+        toastr.success("Order removed successfully!");
     } catch (error) {
-        console.log(error);
+        toastr.error(error);
+    } finally {
+        loader.hide();
     }
 }
 async function btnUpdateOrderClickHandler() {
     try {
+        loader.show();
         const $tableRow = $(this).parents('tr');
         const controlNumber = $tableRow.attr('data-control-number');
 
@@ -86,8 +98,6 @@ async function btnUpdateOrderClickHandler() {
             url: `api/order/${controlNumber}`,
             method: "PUT",
         });
-        
-        console.log(response);
         
         const $badge = $tableRow.find(".badge");
         
@@ -98,7 +108,10 @@ async function btnUpdateOrderClickHandler() {
         
         if (response.state === "completed")
             $(this).prop("disabled", true);
+        toastr.success("Order state changed to " + response.stateName);
     } catch (error) {
-        console.log(error);
+        toastr.error(error);
+    } finally {
+        loader.hide();
     }
 }
