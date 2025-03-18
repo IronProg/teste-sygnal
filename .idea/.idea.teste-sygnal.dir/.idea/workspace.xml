@@ -18,13 +18,13 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2acbb19544c1ca39a149d541ed955d2d48b436741d388f7bc6acfbf8485338f/PartialViewResult.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Project.Unnamed.executor": "Run",
-    "dotnet-watch.Unnamed.executor": "Run",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Project.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;dotnet-watch.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="dotnet-watch.Unnamed">
     <configuration name="Unnamed" type="DotNetProject" factoryName=".NET Project" nameIsGenerated="true">
       <option name="EXE_PATH" value="$PROJECT_DIR$/TesteSygnal/bin/Debug/net8.0/TesteSygnal.exe" />
