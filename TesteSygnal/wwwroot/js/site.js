@@ -1,6 +1,12 @@
 ﻿const $formFilter = $("#form-filter");
 const $btnAddOrder = $("#btn-add-order");
 const $tableContainer = $("#table-container");
+const $loader = $("#loader");
+
+const loader = {
+    show: () => $loader.css("visibility", "visible"),
+    hide: () => $loader.css("visibility", "hidden")
+}
 
 $(function () {
     $formFilter.on("submit", formFilterSubmitHandler)
