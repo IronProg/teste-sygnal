@@ -14,7 +14,7 @@ public class OrderController(TSDbContext context) : Controller
     private readonly TSDbContext _context = context;
 
     [HttpGet]
-    public IActionResult GetOrders([FromQuery] OrderFormDTO order)
+    public IActionResult GetOrders([FromQuery] OrderFormDTO? order)
     {
         try
         {
@@ -38,7 +38,7 @@ public class OrderController(TSDbContext context) : Controller
             _context.Orders.Add(newOrder);
             _context.SaveChanges();
             
-            return Ok(newOrder);
+            return PartialView("Partials/_table_order_row", new OrderViewModel(newOrder));
         }
         catch (Exception ex)
         {
