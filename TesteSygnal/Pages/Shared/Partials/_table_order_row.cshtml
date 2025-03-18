@@ -1,9 +1,21 @@
 ﻿@model OrderViewModel
-<tr>
+@{
+  bool isUpdateDisabled = Model.State == OrderStateConstants.Completed;
+  bool isDeleteDisabled = Model.State != OrderStateConstants.Pending;
+}
+<tr data-control-number="@Model.ControlNumber">
   <td colspan="6">@Model.ControlNumber</td>
   <td>
-    <div class="badge badge-@Model.StateColor">
+    <div class="badge bg-@Model.StateColor">
       @Model.StateName
     </div>
+  </td>
+  <td>
+    <button type="button" class="btn btn-sm btn-success btn-update-order" disabled="@isUpdateDisabled">
+      <i class="fa-solid fa-forward"></i>
+    </button>
+    <button type="button" class="btn btn-sm btn-danger btn-delete-order" disabled="@isDeleteDisabled">
+      <i class="far fa-trash-alt"></i>
+    </button>
   </td>
 </tr>

@@ -10,6 +10,7 @@ public class OrderFormDTO
 
     public List<SelectListItem> StateList =>
     [
+        new ("All", ""),
         new ("Pending", OrderStateConstants.Pending),
         new ("In Progress", OrderStateConstants.InProgress),
         new ("Completed", OrderStateConstants.Completed),
