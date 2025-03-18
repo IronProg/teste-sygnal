@@ -46,14 +46,17 @@ public class OrderController(TSDbContext context) : Controller
         }
     }
 
-    [HttpPut("controlNumber:int")]
+    [HttpPut("{controlNumber:int}")]
     public IActionResult UpdateOrder([FromRoute] int controlNumber)
     {
         try
         {
-            Order dbOrder = _context.Orders.AsNoTracking()
+            Order? dbOrder = _context.Orders.AsNoTracking()
                 .FirstOrDefault(order => order.ControlNumber == controlNumber);
 
+            if (dbOrder == null)
+                return BadRequest("Order not found");
+            
             _context.Orders.Attach(dbOrder);
 
             if (dbOrder.State == OrderStateConstants.Pending)
@@ -71,14 +74,17 @@ public class OrderController(TSDbContext context) : Controller
         }
     }
 
-    [HttpDelete("controlNumber:int")]
+    [HttpDelete("{controlNumber:int}")]
     public IActionResult DeleteOrder([FromRoute] int controlNumber)
     {
         try
         {
-            Order dbOrder = _context.Orders.AsNoTracking()
+            Order? dbOrder = _context.Orders.AsNoTracking()
                 .FirstOrDefault(order => order.ControlNumber == controlNumber);
 
+            if (dbOrder == null)
+                return BadRequest("Order not found");
+            
             _context.Orders.Remove(dbOrder);
 
             _context.SaveChanges();
