@@ -43,36 +43,9 @@
 </div>
 
 <div class="d-flex justify-content-center py-4">
-    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#add-order-modal">
+    <button class="btn btn-success" type="button" id="btn-add-order">
         <i class="fa-solid fa-plus"></i> Add Order
     </button>
 </div>
 
 <div id="table-container"></div>
-
-<div class="modal fade" id="add-order-modal" tabindex="-1" aria-labelledby="add-order-modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <form method="post" id="form-add-order">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="add-order-modal-title">Adding New Order</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="NewOderControlNumber">Control Number</label>
-                        <input
-                            type="text"
-                            asp-for="NewOderControlNumber"
-                            inputmode="numeric"
-                            class="form-control"
-                            placeholder="Type new order control number">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add Order</button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
