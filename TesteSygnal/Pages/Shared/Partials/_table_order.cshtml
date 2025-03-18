@@ -13,14 +13,7 @@
         <tbody>
         @foreach (var order in Model)
         {
-          <tr>
-            <td colspan="6">@order.ControlNumber</td>
-            <td>
-              <div class="badge badge-@order.StateColor">
-                @order.StateName
-              </div>
-            </td>
-          </tr>
+          <partial name="Partials/_table_order_row" model="order"></partial>
         }
         </tbody>
       </table>
