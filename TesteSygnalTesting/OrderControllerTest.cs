@@ -19,7 +19,7 @@ public class OrderControllerTest
     [Fact]
     public async Task GetOrderTest()
     {
-        var application = ConfigureTestServices();
+        var application = TestConfiguration.Get();
         var context = application.Services.GetRequiredService<TSDbContext>();
         await context.Database.BeginTransactionAsync();
         
@@ -45,7 +45,7 @@ public class OrderControllerTest
     [Fact]
     public async Task CreateAndDeleteOrderTest()
     {
-        var application = ConfigureTestServices();
+        var application = TestConfiguration.Get();
         var context = application.Services.GetRequiredService<TSDbContext>();
         await context.Database.BeginTransactionAsync();
         
@@ -75,7 +75,7 @@ public class OrderControllerTest
     [Fact]
     public async Task UpdateOrderTest()
     {
-        var application = ConfigureTestServices();
+        var application = TestConfiguration.Get();
         var context = application.Services.GetRequiredService<TSDbContext>();
         await context.Database.BeginTransactionAsync();
         
@@ -101,7 +101,7 @@ public class OrderControllerTest
     [Fact]
     public async Task CreateOrderTest()
     {
-        var application = ConfigureTestServices();
+        var application = TestConfiguration.Get();
         var context = application.Services.GetRequiredService<TSDbContext>();
         await context.Database.BeginTransactionAsync();
         
@@ -118,32 +118,6 @@ public class OrderControllerTest
         Assert.Equal(orderCount + 1, newOrderCount);
         
         await context.Database.CurrentTransaction!.RollbackAsync();
-    }
-
-    private WebApplicationFactory<Program> ConfigureTestServices()
-    {
-        var options = new DbContextOptionsBuilder<TSDbContext>()
-            .UseNpgsql("");
-
-        var dbContext = new TSDbContext(options.Options);
-        
-        WebApplicationFactory<Program> application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder => {
-            builder.ConfigureTestServices(services => {
-
-                var options = new DbContextOptionsBuilder<TSDbContext>()
-                    .UseNpgsql("Host=ep-shiny-wave-a5n7a4om-pooler.us-east-2.aws.neon.tech;Database=TesteSygnal;Username=TesteSygnal_owner;Password=npg_FLHKP2gvh6Ay;SSL Mode=Require;Trust Server Certificate=true")
-                    .Options;
-
-                services.AddSingleton(options);
-
-                services.AddSingleton<TSDbContext>();
-
-                services.AddSingleton<OrderService>();
-
-            });
-        });
-
-        return application;
     }
 }
 
