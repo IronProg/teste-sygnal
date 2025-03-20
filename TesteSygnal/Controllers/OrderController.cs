@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TesteSygnal.Constants;
@@ -73,7 +74,8 @@ public class OrderController(OrderService orderService) : Controller
     {
         try
         {
-            if (orderService.GetOrder(controlNumber) == null)
+            Order? dbOrder = orderService.GetOrder(controlNumber);
+            if (dbOrder == null)
                 return NotFound("Order not found");
 
             bool wasDeleted = orderService.DeleteOrder(controlNumber);
@@ -85,7 +87,7 @@ public class OrderController(OrderService orderService) : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest("An error occurred while updating order: " + ex.Message);   
+            return BadRequest(ex.Message);   
         }
     }
 }

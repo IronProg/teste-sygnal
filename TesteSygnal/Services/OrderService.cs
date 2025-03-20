@@ -61,7 +61,7 @@ public class OrderService(TSDbContext context)
     {
         try
         {
-            Order? dbOrder = _context.Orders.AsNoTracking()
+            Order? dbOrder = _context.Orders
                 .FirstOrDefault(order => order.ControlNumber == controlNumber);
 
             if (dbOrder == null)
@@ -89,10 +89,10 @@ public class OrderService(TSDbContext context)
     {
         try
         {
-            Order? dbOrder = _context.Orders.AsNoTracking()
+            Order? dbOrder = _context.Orders
                 .FirstOrDefault(order => order.ControlNumber == controlNumber);
 
-            if (dbOrder == null)
+            if (dbOrder == null || dbOrder.State != OrderStateConstants.Pending)
                 return false;
             
             _context.Orders.Remove(dbOrder);
@@ -104,6 +104,7 @@ public class OrderService(TSDbContext context)
         }
         catch (Exception ex)
         {
+            throw;
             return false;
         }
     }

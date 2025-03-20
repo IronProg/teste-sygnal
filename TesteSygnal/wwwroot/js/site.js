@@ -63,7 +63,7 @@ async function btnAddOrderClickHandler() {
 
         toastr.success("Order added successfully!");
     } catch (error) {
-        toastr.error(error);
+        toastr.error(error.responseText);
     } finally {
         loader.hide();
     }
@@ -83,7 +83,7 @@ async function btnDeleteOrderClickHandler() {
         $tableRow.remove();
         toastr.success("Order removed successfully!");
     } catch (error) {
-        toastr.error(error);
+        toastr.error(error.responseText);
     } finally {
         loader.hide();
     }
