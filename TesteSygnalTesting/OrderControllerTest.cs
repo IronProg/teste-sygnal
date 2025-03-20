@@ -16,17 +16,24 @@ using System.Threading.Tasks;
 
 public class OrderControllerTest
 {
+    private readonly  TSDbContext _context;
+    private readonly  HttpClient _client;
+    public OrderControllerTest()
+    {
+        var application = TestConfiguration.Get();
+        _context = application.Services.GetRequiredService<TSDbContext>();
+        _client = application.CreateClient();
+    }
+    private async Task BeginTransactionAsync() => await _context.Database.BeginTransactionAsync();
+    private async Task RollbackAsync() => await _context.Database.CurrentTransaction!.RollbackAsync();
     [Fact]
     public async Task GetOrderTest()
     {
-        var application = TestConfiguration.Get();
-        var context = application.Services.GetRequiredService<TSDbContext>();
-        await context.Database.BeginTransactionAsync();
+        await BeginTransactionAsync();
         
-        var client = application.CreateClient();
-        var response = await client.GetAsync("/api/order");
+        var response = await _client.GetAsync("/api/order");
 
-        int orderCount = context.Orders.Count();
+        int orderCount = _context.Orders.Count();
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -39,85 +46,75 @@ public class OrderControllerTest
         
         Assert.Equal(orderCount, trCount);
         
-        await context.Database.CurrentTransaction!.RollbackAsync();
+        await RollbackAsync();
     }
     
     [Fact]
     public async Task CreateAndDeleteOrderTest()
     {
-        var application = TestConfiguration.Get();
-        var context = application.Services.GetRequiredService<TSDbContext>();
-        await context.Database.BeginTransactionAsync();
+        await BeginTransactionAsync();
         
-        var client = application.CreateClient();
 
-        var responseCreated = await client.PostAsync("/api/order", null);
+        var responseCreated = await _client.PostAsync("/api/order", null);
 
         Assert.Equal(HttpStatusCode.OK, responseCreated.StatusCode);
         
-        int orderControlNumber = context.Orders.Select(x => x.ControlNumber).Max();
+        int orderControlNumber = _context.Orders.Select(x => x.ControlNumber).Max();
         
-        var responseThatShouldFail = await client.DeleteAsync($"/api/order/{orderControlNumber + 1}");
+        var responseThatShouldFail = await _client.DeleteAsync($"/api/order/{orderControlNumber + 1}");
         
         Assert.Equal(HttpStatusCode.NotFound, responseThatShouldFail.StatusCode);
         
-        var response = await client.DeleteAsync($"/api/order/{orderControlNumber}");
+        var response = await _client.DeleteAsync($"/api/order/{orderControlNumber}");
         
         Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
 
-        Order? orderFromDb = await context.Orders.FirstOrDefaultAsync(x => x.ControlNumber == orderControlNumber);
+        Order? orderFromDb = await _context.Orders.FirstOrDefaultAsync(x => x.ControlNumber == orderControlNumber);
         
         Assert.Null(orderFromDb);
         
-        await context.Database.CurrentTransaction!.RollbackAsync();
+        await RollbackAsync();
     }
     
     [Fact]
     public async Task UpdateOrderTest()
     {
-        var application = TestConfiguration.Get();
-        var context = application.Services.GetRequiredService<TSDbContext>();
-        await context.Database.BeginTransactionAsync();
+        await BeginTransactionAsync();
         
-        var client = application.CreateClient();
 
-        var responseCreated = await client.PostAsync("/api/order", null);
+        var responseCreated = await _client.PostAsync("/api/order", null);
 
         Assert.Equal(HttpStatusCode.OK, responseCreated.StatusCode);
 
-        Order newOrder = await context.Orders.AsNoTracking().OrderBy(x => x.ControlNumber).LastAsync();
+        Order newOrder = await _context.Orders.AsNoTracking().OrderBy(x => x.ControlNumber).LastAsync();
         
-        var response = await client.PutAsync($"/api/order/{newOrder.ControlNumber}", null);
+        var response = await _client.PutAsync($"/api/order/{newOrder.ControlNumber}", null);
         
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-        Order? orderFromDb = await context.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.ControlNumber == newOrder.ControlNumber);
+        Order? orderFromDb = await _context.Orders.AsNoTracking().FirstOrDefaultAsync(x => x.ControlNumber == newOrder.ControlNumber);
         
         Assert.NotEqual(orderFromDb.State, newOrder.State);
         
-        await context.Database.CurrentTransaction!.RollbackAsync();
+        await RollbackAsync();
     }
     
     [Fact]
     public async Task CreateOrderTest()
     {
-        var application = TestConfiguration.Get();
-        var context = application.Services.GetRequiredService<TSDbContext>();
-        await context.Database.BeginTransactionAsync();
+        await BeginTransactionAsync();
         
-        int orderCount = context.Orders.AsNoTracking().Count();
-
-        var client = application.CreateClient();
+        int orderCount = _context.Orders.AsNoTracking().Count();
         
-        var response = await client.PostAsync("/api/order", null);
+        var response = await _client.PostAsync("/api/order", null);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         
-        int newOrderCount = context.Orders.Count();
+        int newOrderCount = _context.Orders.Count();
         
         Assert.Equal(orderCount + 1, newOrderCount);
         
-        await context.Database.CurrentTransaction!.RollbackAsync();
+        await RollbackAsync();
     }
 }
 
