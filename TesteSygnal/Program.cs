@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TesteSygnal.Context;
+using TesteSygnal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddRazorPages();
 builder.Services
     .AddDbContext<TSDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<OrderService>();
 
 var app = builder.Build();
 
@@ -31,3 +34,5 @@ app.MapRazorPages();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
