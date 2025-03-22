@@ -1,0 +1,17 @@
+.card#new-order-card {
+    @apply bg-green-400 flex justify-center items-center
+        hover:bg-green-300
+        active:bg-green-200;
+}
+
+.card#new-order-card:hover .icon-add-order {
+    @apply bg-green-500 border-green-500;
+}
+
+.card#new-order-card:active .icon-add-order {
+    @apply bg-green-400 border-green-400;
+}
+
+.icon-add-order {
+    @apply select-none text-center text-white bg-green-600 border-green-600 block text-8xl border-8 rounded-[50%] mx-auto w-32 h-32;
+}
