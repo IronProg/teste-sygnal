@@ -108,6 +108,26 @@ function App() {
         }
     }
 
+    async function deleteOrder(controlNumber) {
+        try {
+            const response = await fetch(ApiUrl + "order/" + controlNumber, {
+                method: "DELETE",
+                mode: "cors"
+            });
+
+            if (response.status !== 202) {
+                toast.error("Bad response when deleting order. " + await response.text());
+                return;
+            }
+
+            setOrderList(prevOrders =>
+                prevOrders.filter(order => order.controlNumber !== controlNumber)
+            );
+        } catch (e) {
+            toast.error("Error at deleting order. " + e);
+        }
+    }
+
     return (
         <>
             <Navbar/>
@@ -118,7 +138,7 @@ function App() {
                     ? <div className="flex justify-center">
                         <Spinner/>
                     </div>
-                    : <OrderList onUpdateOrder={updateOrder} onAddOrder={addOrder}
+                    : <OrderList onDeleteOrder={deleteOrder} onUpdateOrder={updateOrder} onAddOrder={addOrder}
                                    orderList={filteredOrderList.toSorted((a, b) => b.controlNumber - a.controlNumber)}/>
                 }
             </div>
