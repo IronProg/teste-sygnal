@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TesteSygnal.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class MigrationForSecureDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

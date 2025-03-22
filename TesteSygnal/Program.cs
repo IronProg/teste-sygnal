@@ -4,6 +4,8 @@ using TesteSygnal.Services;
 
 const string PermitReactCorsRuleName = "permitReactCors";
 
+string dbConnectionString = Environment.GetEnvironmentVariable("dbConnectionString") ?? Environment.GetEnvironmentVariable("dbConnectionString", EnvironmentVariableTarget.User);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -20,9 +22,11 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services
     .AddDbContext<TSDbContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseNpgsql(dbConnectionString));
 
 builder.Services.AddScoped<OrderService>();
 

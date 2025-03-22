@@ -11,8 +11,8 @@ using TesteSygnal.Context;
 namespace TesteSygnal.Migrations
 {
     [DbContext(typeof(TSDbContext))]
-    [Migration("20250317225403_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20250322185306_MigrationForSecureDatabase")]
+    partial class MigrationForSecureDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
