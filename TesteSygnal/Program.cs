@@ -11,10 +11,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: PermitReactCorsRuleName,
         policy  =>
         {
-            policy.WithOrigins("https://teste-sygnal.vercel.app")
+            policy.AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
+                .AllowAnyMethod();
         });
 });
 
