@@ -25,12 +25,10 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal
-
     - name: Build project
       run: dotnet build --no-restore
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal
 
   deploy:
     needs: build_and_test # Só executa se os testes passarem
