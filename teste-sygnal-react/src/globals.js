@@ -1,0 +1,1 @@
+export const ApiUrl = "https://testesygnal.fly.dev/api/rest/"
