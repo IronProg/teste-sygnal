@@ -76,7 +76,7 @@ public class OrderController(OrderService orderService) : Controller
                 return NotFound("Order not found.");
             
             if (order.State == OrderStateConstants.Completed)
-                return NotFound("Order is already completed.");
+                return BadRequest("Order is already completed.");
             
             Order? dbOrder = orderService.UpdateOrderState(controlNumber);
 
