@@ -7,9 +7,7 @@ using TesteSygnal.Models;
 
 namespace TesteSygnal.Pages;
 
-public class IndexModel(
-    TSDbContext context, 
-    ILogger<IndexModel> logger) : PageModel
+public class IndexModel : PageModel
 {
     [BindProperty(SupportsGet = true)]
     public OrderFormDTO FormDTO { get; set; } = new();

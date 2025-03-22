@@ -23,6 +23,9 @@ public class OrderService(TSDbContext context)
         try
         {
             IQueryable<Order> queryOrder = _context.Orders.AsNoTracking();
+
+            if (orderFormDTO == null)
+                return queryOrder.ToList();
             
             if (orderFormDTO.State != null)
                 queryOrder = queryOrder.Where(o => o.State == orderFormDTO.State);  
@@ -33,7 +36,7 @@ public class OrderService(TSDbContext context)
 
             return queryOrder.ToList();
         }
-        catch (Exception e)
+        catch
         {
             return [];
         }
@@ -51,7 +54,7 @@ public class OrderService(TSDbContext context)
             
             return null;
         }
-        catch (Exception ex)
+        catch
         {
             return null;
         }
@@ -79,7 +82,7 @@ public class OrderService(TSDbContext context)
 
             return null;
         }
-        catch (Exception ex)
+        catch
         {
             return null;
         }
@@ -102,10 +105,9 @@ public class OrderService(TSDbContext context)
             
             return false;
         }
-        catch (Exception ex)
+        catch
         {
             throw;
-            return false;
         }
     }
 }
