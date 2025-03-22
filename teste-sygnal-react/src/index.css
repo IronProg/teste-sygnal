@@ -4,10 +4,17 @@
 
 @import "flowbite/src/themes/default.css";
 
+
+* {
+     font-family: "Oswald", sans-serif;
+     font-optical-sizing: auto;
+     font-style: normal;
+ }
+
 body {
     @apply bg-lime-100;
 }
 
 .card {
-    @apply block p-6 bg-white border border-gray-200 rounded-lg shadow-md;
+    @apply block p-4 md:p-6 bg-white border border-gray-200 rounded-lg shadow-md;
 }

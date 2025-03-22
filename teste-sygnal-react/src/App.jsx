@@ -5,6 +5,7 @@ import OrderList from "./components/order-list/OrderList";
 import {useEffect, useState} from "react";
 import {ApiUrl} from "./globals";
 import Spinner from "./components/spinner/Spinner";
+import {toast} from "react-toastify";
 
 function App() {
     const [orderList, setOrderList] = useState([])
@@ -55,7 +56,7 @@ function App() {
                 }
                 setOrderList(orders);
             } catch (e) {
-                console.error(e);
+                toast.error("Loading data from server wasn't possible. " + e);
             } finally {
                 setIsLoading(false);
             }
@@ -70,8 +71,8 @@ function App() {
                 mode: "cors"
             });
 
-            if (response.status !== 200) {
-                console.error("Error: ", await response.text());
+            if (response.status !== 201) {
+                toast.error("Bad response when adding order. " + await response.text());
                 return;
             }
 
@@ -79,7 +80,7 @@ function App() {
 
             setOrderList(prevOrders => [...prevOrders, newOrder]);
         } catch (e) {
-            console.error(e);
+            toast.error("Error at adding order. " + e);
         }
     }
 
@@ -91,7 +92,7 @@ function App() {
             });
 
             if (response.status !== 200) {
-                console.error("Error: ", await response.text());
+                toast.error("Bad response when updating order. " + await response.text());
                 return;
             }
 
@@ -103,7 +104,7 @@ function App() {
                 )
             );
         } catch (e) {
-            console.error(e);
+            toast.error("Error at updating order. " + e);
         }
     }
 

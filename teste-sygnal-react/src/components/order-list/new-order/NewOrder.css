@@ -13,5 +13,6 @@
 }
 
 .icon-add-order {
-    @apply select-none text-center text-white bg-green-600 border-green-600 block text-8xl border-8 rounded-[50%] mx-auto w-32 h-32;
+    @apply select-none text-center text-white bg-green-600 border-green-600 block text-8xl border-8 rounded-[50%] mx-auto w-32 h-32
+    flex justify-center items-center;
 }
