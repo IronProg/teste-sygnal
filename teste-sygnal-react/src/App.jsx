@@ -2,7 +2,7 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import FilterForm from "./components/form/FilterForm";
 import OrderList from "./components/order-list/OrderList";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const orderListMockup = [
     {
@@ -61,11 +61,18 @@ const orderListMockup = [
 
 function App() {
     const [orderList, setOrderList] = useState(orderListMockup)
+    const [filteredOrderList, setFilteredOrderList] = useState(orderListMockup)
+    const [filters, setFilters] = useState({ controlNumber: "", controlNumberMax: "", state: ""})
 
-    async function filterOrders(filters) {
+    useEffect(() => {
+        const newFilter = {...filters}
+        setFilters(newFilter)
+    }, [orderList])
+
+    useEffect(() => {
         const urlParams = new URLSearchParams(filters);
 
-        let orders = [...orderListMockup];
+        let orders = [...orderList];
         if (filters.controlNumber && filters.controlNumber !== "") {
             orders = orders.filter(item => item.controlNumber >= filters.controlNumber)
         }
@@ -75,8 +82,8 @@ function App() {
         if (filters.state && filters.state !== "") {
             orders = orders.filter(item => item.state == filters.state);
         }
-        setOrderList(orders);
-    }
+        setFilteredOrderList(orders);
+    }, [filters])
 
     async function addOrder() {
         const orders = [
@@ -86,13 +93,29 @@ function App() {
         setOrderList(orders);
     }
 
+    async function updateOrder(controlNumber) {
+        const orders = [...orderList];
+        const orderIndex = orderList.findIndex(order => order.controlNumber === controlNumber);
+        const orderState = orders[orderIndex].state;
+
+        if (orderState === 'pending') {
+            orders[orderIndex].state = 'inprogress';
+        } else if (orderState === 'inprogress') {
+            orders[orderIndex].state = 'completed';
+        }
+
+        setOrderList(orders);
+    }
+
+
+
     return (
         <>
             <Navbar/>
             <div className="content-container">
-                <FilterForm onFilter={filterOrders}/>
+                <FilterForm onFilter={setFilters}/>
                 <hr className="my-4" />
-                <OrderList onAddOrder={addOrder} orderList={orderList.toSorted((a, b) => b.controlNumber - a.controlNumber)} />
+                <OrderList onUpdateOrder={updateOrder} onAddOrder={addOrder} orderList={filteredOrderList.toSorted((a, b) => b.controlNumber - a.controlNumber)} />
             </div>
         </>
     );

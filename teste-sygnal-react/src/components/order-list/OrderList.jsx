@@ -9,7 +9,7 @@ export default function OrderList(props) {
             <NewOrder onAddOrder={props.onAddOrder} />
             {
                 props.orderList
-                    .map(order => <OrderCard key={order.controlNumber} state={order.state}
+                    .map(order => <OrderCard onUpdateOrder={props.onUpdateOrder} key={order.controlNumber} state={order.state}
                                              controlNumber={order.controlNumber}/>)
             }
         </div>)

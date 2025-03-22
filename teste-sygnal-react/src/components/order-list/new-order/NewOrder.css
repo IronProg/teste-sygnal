@@ -1,5 +1,5 @@
 .card#new-order-card {
-    @apply bg-green-400 flex justify-center items-center
+    @apply bg-green-400 flex justify-center items-center cursor-pointer
         hover:bg-green-300
         active:bg-green-200;
 }
