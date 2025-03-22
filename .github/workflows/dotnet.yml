@@ -47,4 +47,5 @@ jobs:
       env:
         FLY_API_TOKEN: ${{ secrets.Deploy_Token }}
       run: |
+        cd TesteSygnal
         flyctl deploy --remote-only
