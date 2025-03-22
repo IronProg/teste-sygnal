@@ -1,0 +1,7 @@
+.main-navbar {
+    @apply bg-lime-600 border-lime-200 dark:bg-gray-900 dark:border-gray-700;
+}
+.main-navbar-logo-container {
+    @apply max-w-screen-2xl flex items-center justify-center mx-auto py-4 px-4
+    md:justify-start md:items-start md:px-8;
+}

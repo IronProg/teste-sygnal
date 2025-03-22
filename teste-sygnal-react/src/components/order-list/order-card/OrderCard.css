@@ -1,0 +1,19 @@
+.order-control-number {
+    @apply text-8xl font-bold text-center;
+}
+
+.order-badge {
+    @apply text-center font-bold;
+}
+
+.card.order-card[data-status="pending"] {
+    @apply bg-orange-100 hover:bg-orange-200 active:bg-orange-300 cursor-pointer;
+}
+
+.card.order-card[data-status="inprogress"] {
+    @apply bg-blue-100 hover:bg-blue-200 active:bg-blue-300 cursor-pointer;
+}
+
+.card.order-card[data-status="completed"] {
+    @apply bg-green-200;
+}

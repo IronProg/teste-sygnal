@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "flowbite/src/themes/default.css";
+
+body {
+    @apply bg-lime-100;
+}
+
+.card {
+    @apply block p-6 bg-white border border-gray-200 rounded-lg shadow-md;
+}
