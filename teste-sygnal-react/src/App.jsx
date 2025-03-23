@@ -7,8 +7,8 @@ import {ApiUrl} from "./globals";
 import Spinner from "./components/spinner/Spinner";
 import {toast} from "react-toastify";
 
-function App() {
-    const [orderList, setOrderList] = useState([])
+function App({mockData = []}) {
+    const [orderList, setOrderList] = useState(mockData);
     const [filteredOrderList, setFilteredOrderList] = useState([])
     const [filters, setFilters] = useState({controlNumber: "", controlNumberMax: "", state: ""})
     const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +61,11 @@ function App() {
                 setIsLoading(false);
             }
         }
-        fetchData();
+        if (mockData.length === 0) {
+            fetchData();
+        } else {
+            setIsLoading(false);
+        }
     }, [])
 
     async function addOrder() {
@@ -108,6 +112,26 @@ function App() {
         }
     }
 
+    async function deleteOrder(controlNumber) {
+        try {
+            const response = await fetch(ApiUrl + "order/" + controlNumber, {
+                method: "DELETE",
+                mode: "cors"
+            });
+
+            if (response.status !== 202) {
+                toast.error("Bad response when deleting order. " + await response.text());
+                return;
+            }
+
+            setOrderList(prevOrders =>
+                prevOrders.filter(order => order.controlNumber !== controlNumber)
+            );
+        } catch (e) {
+            toast.error("Error at deleting order. " + e);
+        }
+    }
+
     return (
         <>
             <Navbar/>
@@ -118,7 +142,7 @@ function App() {
                     ? <div className="flex justify-center">
                         <Spinner/>
                     </div>
-                    : <OrderList onUpdateOrder={updateOrder} onAddOrder={addOrder}
+                    : <OrderList onDeleteOrder={deleteOrder} onUpdateOrder={updateOrder} onAddOrder={addOrder}
                                    orderList={filteredOrderList.toSorted((a, b) => b.controlNumber - a.controlNumber)}/>
                 }
             </div>

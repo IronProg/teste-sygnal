@@ -23,7 +23,7 @@ export default function FilterForm(props) {
                         <p className="form-label">Control Number</p>
                         <div className="flex flex-row justify-between">
                             <div className="floating-control group">
-                                <input type="text" name="control-number-minimum" id="control-number-minimum"
+                                <input type="text" id="control-number-minimum"
                                        className="floating-input peer"
                                        value={minimum}
                                        onChange={(event) => setMinimum(event.target.value)}
@@ -32,7 +32,7 @@ export default function FilterForm(props) {
                                        className="floating-label">Minimum Value</label>
                             </div>
                             <div className="floating-control group">
-                                <input type="text" name="control-number-maximum" id="control-number-maximum"
+                                <input type="text" id="control-number-maximum"
                                        className="floating-input peer"
                                        value={maximum}
                                        onChange={(event) => setMaximum(event.target.value)}
