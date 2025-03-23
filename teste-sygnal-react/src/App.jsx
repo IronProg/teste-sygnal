@@ -7,8 +7,8 @@ import {ApiUrl} from "./globals";
 import Spinner from "./components/spinner/Spinner";
 import {toast} from "react-toastify";
 
-function App() {
-    const [orderList, setOrderList] = useState([])
+function App({mockData = []}) {
+    const [orderList, setOrderList] = useState(mockData);
     const [filteredOrderList, setFilteredOrderList] = useState([])
     const [filters, setFilters] = useState({controlNumber: "", controlNumberMax: "", state: ""})
     const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +61,11 @@ function App() {
                 setIsLoading(false);
             }
         }
-        fetchData();
+        if (mockData.length === 0) {
+            fetchData();
+        } else {
+            setIsLoading(false);
+        }
     }, [])
 
     async function addOrder() {

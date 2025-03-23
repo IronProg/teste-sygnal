@@ -16,7 +16,7 @@ export default function OrderCard(props) {
         props.onDeleteOrder(props.controlNumber);
     }
     return (
-        <div onClick={() => isClickable ? props.onUpdateOrder(props.controlNumber) : null} className={classes}
+        <div data-testid={"order-" + props.controlNumber} onClick={() => isClickable ? props.onUpdateOrder(props.controlNumber) : null} className={classes}
              data-status={props.state}>
             {isDeletable
                 ? <button onClick={deleteOrder} className='btn-delete '>
