@@ -2,26 +2,29 @@
 This project was done following [Sygnal Group Test Apply Repo](https://github.com/sygnalgroup/Test-Apply) instructions.
 
 ## How to access?
-This repository has 3 projects, and they are, in development order:
+This repository contains three projects, developed in the following order:
 1. **Razor Pages** - ASP.NET Core Razor Pages with jQuery, deployed on Fly.io
-2. **RestAPI** - ASP.NET Core API deployed in Fly.io
-3. **ReactJS** - ReactJS app deployed in Vercel
+2. **RestAPI** - ASP.NET Core API deployed on Fly.io
+3. **ReactJS** - ReactJS app deployed on Vercel
 
-### Razor Pages
-This was the first one that I've made, because Razor is the technology I'm most used to. You can check out my Razor Pages version of the project in [this Fly.io link](https://testesygnal.fly.dev/api/rest).
+### [Razor Pages](https://testesygnal.fly.dev/)
+This was the first project I created, as Razor is the technology I'm most familiar with.
 
-> Technologies for App: Razor Pages, Entity Framework Core, jQuery 
+> Technologies for the App: [Razor Pages](https://github.com/dotnet/razor) | [Entity Framework Core](https://github.com/dotnet/efcore) | [jQuery](https://jquery.com/) 
 
-> Technologies for Testing: XUnit, Microsoft.AspNetCore.Mvc.Testing
+> Technologies for Testing: [XUnit](https://xunit.net/) | [Microsoft.AspNetCore.Mvc.Testing](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Testing)
 
 ### RestAPI
-This was the second one, implemented into the same host, with the same app (so i could deploy without any more costs). You can check out my the API consuming the url https://testesygnal.fly.dev/api/rest, has the following routes:
+This was the second project. It was implemented within the same host and app to allow deployment without additional costs. You can interact with the API at:
+> Base URL: https://testesygnal.fly.dev/api/rest
 
-- GET /Order - Returns specific order
+Here are the available routes:
+
+- GET /Order - Returns a list of orders
 - - **Query Params**
-- - ControlNumber:int - Filters result by a minimum control number
-- - ControlNumberMax:int - Filters result by a maximum control number
-- - State:string - Filters result by an specific state
+- - ControlNumber:int - Filters results by a **minimum** control number
+- - ControlNumberMax:int - Filters results by a **maximum** control number
+- - State:string - Filters result by an specific **state**
 ```js
 [
     {
@@ -30,7 +33,7 @@ This was the second one, implemented into the same host, with the same app (so i
     }
 ]
 ```
-- GET /Order/{controlNumber:int} - Returns specific order
+- GET /Order/{controlNumber:int} - Returns a specific order
 ```js
 {
     controlNumber: number,
@@ -51,7 +54,7 @@ This was the second one, implemented into the same host, with the same app (so i
     state: string // "pending", "inprogress", "completed"
 }
 ```
-- DELETE /Order/{controlNumber:int} - Delete an pending order
+- DELETE /Order/{controlNumber:int} - Deletes a pending order
 ```js
 {
     controlNumber: number,
@@ -59,13 +62,13 @@ This was the second one, implemented into the same host, with the same app (so i
 }
 ```
 
-> Technologies for App: Razor Pages, Entity Framework Core, jQuery 
+> Technologies for the App: [Razor Pages](https://github.com/dotnet/razor) | [Entity Framework Core](https://github.com/dotnet/efcore) | [jQuery](https://jquery.com/) 
 
-> Technologies for Testing: XUnit, Microsoft.AspNetCore.Mvc.Testing
+> Technologies for Testing: [XUnit](https://xunit.net/) | [Microsoft.AspNetCore.Mvc.Testing](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Testing)
 
-### ReactJS
-This one was generated with *create-react-app*. You can check out my ReactJS version of the project in [this Vercel link](https://teste-sygnal.vercel.app/).
+### [ReactJS](https://teste-sygnal.vercel.app/)
+This one was generated with **create-react-app**.
 
-> Technologies for App: ReactJS, TailwindCSS, Flowbite, React Toastify
+> Technologies for the App: [ReactJS](https://react.dev/) | [TailwindCSS](https://tailwindcss.com/) | [Flowbite](https://flowbite.com/) | [React Toastify](https://fkhadra.github.io/react-toastify/introduction/)
 
-> Technologies for Testing: jest, react-testing-library
+> Technologies for Testing: [jest](https://jestjs.io/), [react-testing-library](https://testing-library.com)
