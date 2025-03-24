@@ -28,6 +28,10 @@ jobs:
     - name: Build project
       run: dotnet build --no-restore
     - name: Run tests
+        env:
+          dbConnectionString: ${{ secrets.dbConnectionString }}
+
+
       run: dotnet test --no-build --verbosity normal
 
   deploy:
