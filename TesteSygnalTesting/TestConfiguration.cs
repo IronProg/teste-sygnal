@@ -11,6 +11,8 @@ public class TestConfiguration
 {
     public static WebApplicationFactory<Program> Get()
     {
+            string dbConnectionString = Environment.GetEnvironmentVariable("dbConnectionString") ?? Environment.GetEnvironmentVariable("dbConnectionString", EnvironmentVariableTarget.User);
+
             var options = new DbContextOptionsBuilder<TSDbContext>()
                 .UseNpgsql("");
 
@@ -20,7 +22,7 @@ public class TestConfiguration
                 builder.ConfigureTestServices(services => {
 
                     var options = new DbContextOptionsBuilder<TSDbContext>()
-                        .UseNpgsql("Host=ep-shiny-wave-a5n7a4om-pooler.us-east-2.aws.neon.tech;Database=TesteSygnal;Username=TesteSygnal_owner;Password=npg_FLHKP2gvh6Ay;SSL Mode=Require;Trust Server Certificate=true")
+                        .UseNpgsql(dbConnectionString)
                         .Options;
 
                     services.AddSingleton(options);

@@ -13,8 +13,9 @@ public class TestRunStart : XunitTestFramework
 {
     public TestRunStart(IMessageSink messageSink) : base(messageSink)
     {
+            string dbConnectionString = Environment.GetEnvironmentVariable("dbConnectionString") ?? Environment.GetEnvironmentVariable("dbConnectionString", EnvironmentVariableTarget.User);
         var options = new DbContextOptionsBuilder<TSDbContext>()
-            .UseNpgsql("Host=ep-shiny-wave-a5n7a4om-pooler.us-east-2.aws.neon.tech;Database=TesteSygnal;Username=TesteSygnal_owner;Password=npg_FLHKP2gvh6Ay;SSL Mode=Require;Trust Server Certificate=true");
+            .UseNpgsql(dbConnectionString);
         
         var dbContext = new TSDbContext(options.Options);
     }
